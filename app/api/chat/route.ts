@@ -31,10 +31,11 @@ async function createSession() {
     },
     body: JSON.stringify({
       projectId: bb_project_id,
-      keepAlive: true
+      keepAlive: false
      }),
   });
   const data = await response.json();
+  console.log(data)
   return { id: data.id, debugUrl: data.debugUrl };
 }
 
@@ -58,6 +59,7 @@ export async function POST(req: Request) {
         execute: async () => {
           const session = await createSession();
           const debugUrl = await getDebugUrl(session.id);
+          console.log(session.id, debugUrl.debuggerFullscreenUrl)
           return { sessionId: session.id, debugUrl: debugUrl.debuggerFullscreenUrl, toolName: 'Creating a new session'};
         },
       }),
